@@ -19,6 +19,8 @@ import { OrderSuccessComponent } from './order-success/order-success.component';
 import { MyOrderComponent } from './my-order/my-order.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
     OrderSuccessComponent,
     MyOrderComponent,
     AdminProductsComponent,
-    AdminOrdersComponent
+    AdminOrdersComponent,
+    MyOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -45,10 +48,12 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
       {path:'shop-cart', component: ShopCartComponent},
       {path:'check-out', component: CheckOutComponent},
       {path:'order-success', component: OrderSuccessComponent},
+      {path:'my/orders', component: MyOrderComponent},
       {path:'login', component: LoginComponent},
       {path:'admin/products', component: AdminProductsComponent},
       {path:'admin/orders', component: AdminOrdersComponent}
-    ])
+    ]),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
