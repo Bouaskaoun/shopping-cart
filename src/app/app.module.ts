@@ -1,3 +1,5 @@
+import { ProductService } from './product.service';
+import { CategoryService } from './category.service';
 import { AdminAuthGuardService } from './admin-auth-guard.service';
 import { AuthGuardService } from './auth-guard.service';
 import { AuthService } from './auth.service';
@@ -25,6 +27,9 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { UserService } from './user.service';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
+import { FormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
 
 @NgModule({
   declarations: [
@@ -38,14 +43,17 @@ import { UserService } from './user.service';
     MyOrderComponent,
     AdminProductsComponent,
     AdminOrdersComponent,
-    MyOrdersComponent
+    MyOrdersComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule, 
     AngularFireAuthModule,
+    CustomFormsModule,
     RouterModule.forRoot([
       {
         path:'', 
@@ -87,6 +95,14 @@ import { UserService } from './user.service';
         ]
       },
       {
+        path:'admin/new-product', 
+        component: ProductFormComponent, 
+        canActivate:[
+          AuthGuardService,
+          AdminAuthGuardService
+        ]
+      },
+      {
         path:'admin/orders', 
         component: AdminOrdersComponent, 
         canActivate:[
@@ -101,7 +117,9 @@ import { UserService } from './user.service';
     AuthService,
     AuthGuardService,
     UserService,
-    AdminAuthGuardService
+    AdminAuthGuardService,
+    CategoryService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
