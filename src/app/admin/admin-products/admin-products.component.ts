@@ -9,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminProductsComponent implements OnInit {
 
-  products$:Observable<any[]>;
+  products:any;
   constructor(private productService: ProductService) {
-    this.products$ = this.productService.getAll();
+    this.productService.getAll().subscribe(items =>{
+      this.products = items;
+    });
    }
 
   ngOnInit(): void {
