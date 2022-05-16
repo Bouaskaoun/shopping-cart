@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ProductService } from './../../product.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,10 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminProductsComponent implements OnInit {
 
+  employee!: Observable<any[]>;
   products:any;
   constructor(private productService: ProductService) {
     this.productService.getAll().subscribe(items =>{
       this.products = items;
+      console.log(items)
     });
    }
 
