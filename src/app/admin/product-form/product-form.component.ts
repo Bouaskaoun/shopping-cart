@@ -12,12 +12,8 @@ import { NgForm } from '@angular/forms';
 })
 export class ProductFormComponent implements OnInit {
 
-  product!:{
-    title:string,
-    price:number,
-    category:string,
-    imageUrl:string
-  };
+  id:any;
+  product:any;
   categories$;
   constructor(
     private categoryService: CategoryService, 
@@ -26,15 +22,23 @@ export class ProductFormComponent implements OnInit {
     private route: ActivatedRoute) {
 
     this.categories$ = categoryService.getCategories();
-    let id = this.route.snapshot.paramMap.get('id');
-    if (id) this.productService.getProduct(id).subscribe(item => {this.product = item})
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) this.productService.getProduct(this.id).subscribe(item => {this.product = item})
    }
 
   ngOnInit(): void {
   }
 
   save(f: NgForm){
-    this.productService.create(f.value);
+    if (this.id) this.productService.update(this.id,this.product)
+    else this.productService.create(f.value);
+    
     this.router.navigate(['/admin/products'])
+  }
+
+  delete(){
+    if (!confirm('Are you sure you want to delete this')) return;
+    this.productService.delete(this.id);
+    this.router.navigate(['/admin/products']);
   }
 }

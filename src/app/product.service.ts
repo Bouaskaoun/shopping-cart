@@ -21,4 +21,12 @@ export class ProductService {
   getProduct(productId:string){
     return this.db.object('/products/'+ productId).valueChanges() as Observable<any>;
   }
+
+  update(idProduct: string,product: any){
+    return this.db.object('/products/'+ idProduct).update(product);
+  }
+
+  delete(idProduct:any){
+    return this.db.object('/products/'+ idProduct).remove();
+  }
 }
