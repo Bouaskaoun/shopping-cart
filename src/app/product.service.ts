@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Product } from './models/product';
+import { ProductData } from './models/productData';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class ProductService {
 
   getProduct(productId:string){
     return this.db.object('/products/'+ productId).valueChanges() as Observable<any>;
+  }
+
+  getProductsData(){
+    return this.db.list('/products').valueChanges() as Observable<ProductData[]>;
   }
 
   update(idProduct: string,product: any){

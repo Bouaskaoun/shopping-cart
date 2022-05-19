@@ -1,7 +1,11 @@
+import { ProductData } from './../../models/productData';
 import { Product } from './../../models/product';
-import { Subscription } from 'rxjs';
+import { first, Subscription } from 'rxjs';
 import { ProductService } from './../../product.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-admin-products',
@@ -13,9 +17,17 @@ export class AdminProductsComponent implements OnInit,OnDestroy{
   subscription:Subscription;
   products!:Product[];
   filterProducts:any;
+  productsData!:ProductData[];
+  displayedColumns: string[] = ['title', 'price'];
+
+  dataSource!: MatTableDataSource<ProductData>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(private productService: ProductService) {
-    this.subscription = this.productService.getAll().subscribe(items =>{
-      this.filterProducts = this.products = items;
+    this.subscription = this.productService.getAll().subscribe(products =>{
+      this.filterProducts = this.products = products;
     });
    }
 
@@ -23,10 +35,21 @@ export class AdminProductsComponent implements OnInit,OnDestroy{
       this.subscription.unsubscribe();
   }
   ngOnInit(): void {
+    this.loadData();
   }
 
   filter(val:string){
     this.filterProducts = (val) ? this.products.filter(p => p.data.title.toLowerCase().includes(val.toLowerCase())): this.products;
+  }
+
+  private loadData(){
+    this.productService.getProductsData().pipe(first()).subscribe(data => {
+      this.productsData=data;
+      console.log(this.productsData);
+      this.dataSource = new MatTableDataSource<ProductData>(this.productsData); 
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
 }
