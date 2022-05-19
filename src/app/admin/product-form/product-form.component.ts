@@ -4,6 +4,8 @@ import { take } from 'rxjs/operators';
 import { CategoryService } from './../../category.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Product } from 'src/app/models/product';
+import { ProductData } from 'src/app/models/productData';
 
 @Component({
   selector: 'app-product-form',
@@ -13,7 +15,7 @@ import { NgForm } from '@angular/forms';
 export class ProductFormComponent implements OnInit {
 
   id:any;
-  product:any;
+  productData = new ProductData();
   categories$;
   constructor(
     private categoryService: CategoryService, 
@@ -23,14 +25,14 @@ export class ProductFormComponent implements OnInit {
 
     this.categories$ = categoryService.getCategories();
     this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) this.productService.getProduct(this.id).subscribe(item => {this.product = item})
+    if (this.id) this.productService.getProduct(this.id).subscribe(item => this.productData = item)
    }
 
   ngOnInit(): void {
   }
 
   save(f: NgForm){
-    if (this.id) this.productService.update(this.id,this.product)
+    if (this.id) this.productService.update(this.id,this.productData)
     else this.productService.create(f.value);
     
     this.router.navigate(['/admin/products'])

@@ -1,6 +1,6 @@
-export interface Product{
-    key:string;
-    data:{
+export class Product{
+    public key!:string;
+    public data!:{
         title:string;
         price:number;
         category:string;

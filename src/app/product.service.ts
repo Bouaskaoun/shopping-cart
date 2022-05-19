@@ -2,6 +2,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Product } from './models/product';
 
 @Injectable({
   providedIn: 'root'
