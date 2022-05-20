@@ -33,6 +33,8 @@ import { CustomFormsModule } from 'ng2-validation';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AngularFireDatabaseModule, 
     AngularFireAuthModule,
     CustomFormsModule,
+    NgbModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
     RouterModule.forRoot([
       {
         path:'', 
@@ -121,11 +129,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
           AdminAuthGuardService
         ]
       }
-    ]),
-    NgbModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    MatPaginatorModule
+    ])
   ],
   providers: [
     AuthService,

@@ -1,11 +1,11 @@
-import { ProductData } from './../../models/productData';
 import { Product } from './../../models/product';
-import { first, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ProductService } from './../../product.service';
 import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-admin-products',
@@ -18,14 +18,15 @@ export class AdminProductsComponent implements OnInit,OnDestroy{
   products!:Product[];
   filterProducts:any;
   productsData!:Product[];
-  displayedColumns: string[] = ['title', 'price', 'editLink'];
+  displayedColumns: string[] = ['data.title', 'price', 'editLink'];
 
   dataSource!: MatTableDataSource<Product>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private productService: ProductService) {
+
+  constructor(private productService: ProductService, private _liveAnnouncer: LiveAnnouncer) {
     this.subscription = this.productService.getAll().subscribe(products =>{
       this.filterProducts = this.products = products;
     });
@@ -40,6 +41,7 @@ export class AdminProductsComponent implements OnInit,OnDestroy{
 
   filter(val:string){
     this.filterProducts = (val) ? this.products.filter(p => p.data.title.toLowerCase().includes(val.toLowerCase())): this.products;
+    this.dataSource = this.filterProducts;
   }
 
   private loadData(){
@@ -50,6 +52,13 @@ export class AdminProductsComponent implements OnInit,OnDestroy{
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+  }
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
 }
