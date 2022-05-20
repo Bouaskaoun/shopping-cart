@@ -17,10 +17,10 @@ export class AdminProductsComponent implements OnInit,OnDestroy{
   subscription:Subscription;
   products!:Product[];
   filterProducts:any;
-  productsData!:ProductData[];
-  displayedColumns: string[] = ['title', 'price'];
+  productsData!:Product[];
+  displayedColumns: string[] = ['title', 'price', 'editLink'];
 
-  dataSource!: MatTableDataSource<ProductData>;
+  dataSource!: MatTableDataSource<Product>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -43,10 +43,10 @@ export class AdminProductsComponent implements OnInit,OnDestroy{
   }
 
   private loadData(){
-    this.productService.getProductsData().pipe(first()).subscribe(data => {
+    this.productService.getAll().subscribe(data => {
       this.productsData=data;
       console.log(this.productsData);
-      this.dataSource = new MatTableDataSource<ProductData>(this.productsData); 
+      this.dataSource = new MatTableDataSource<Product>(this.productsData); 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
