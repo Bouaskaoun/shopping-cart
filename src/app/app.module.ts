@@ -68,7 +68,7 @@ import { MatSortModule } from '@angular/material/sort';
     RouterModule.forRoot([
       {
         path:'', 
-        component: HomeComponent
+        component: ProductsComponent
       },
       {
         path:'products', 
