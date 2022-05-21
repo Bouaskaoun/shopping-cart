@@ -22,10 +22,9 @@ export class ProductFormComponent implements OnInit {
     private productService: ProductService, 
     private router: Router,
     private route: ActivatedRoute) {
-
-    this.categories$ = categoryService.getCategories();
-    this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) this.productService.getProduct(this.id).subscribe(item => this.productData = item)
+      this.categories$ = categoryService.getCategories();
+      this.id = this.route.snapshot.paramMap.get('id');
+      if (this.id) this.productService.getProduct(this.id).subscribe(item => this.productData = item)
    }
 
   ngOnInit(): void {

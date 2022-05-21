@@ -1,0 +1,10 @@
+<div *ngIf="product.data.title" class="card" style="width: 18rem;">
+    <img *ngIf="product.data.imageUrl" [src]="product.data.imageUrl" class="card-img-top">
+    <div class="card-body">
+      <h5 class="card-title">{{ product.data.title }}</h5>
+      <p class="card-text">{{ product.data.price | currency:'USD':true }}</p>
+    </div>
+    <div class="card-footer">
+        <a href="#" class="btn btn-primary btn-block">Go somewhere</a>
+    </div>
+</div>
