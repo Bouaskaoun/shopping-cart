@@ -1,3 +1,9 @@
 .dropdown-toggle {
     cursor: pointer;
 }
+
+.alert-warning {
+    color: #000;
+    background-color: yellow;
+    border-color: #ffecb5;
+}

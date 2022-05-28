@@ -5,7 +5,15 @@
     padding: 0px;
 }
 
+.card-footer button{
+    cursor: pointer;
+}
+
 .btn-block{
     width: 288px;
     height: 38px;
+}
+
+.text-center{
+    padding-top: 10px;
 }

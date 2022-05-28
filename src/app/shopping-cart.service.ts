@@ -1,7 +1,8 @@
+import { ShoppingCart } from './models/shopping-cart';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Injectable } from '@angular/core';
 import { Product } from './models/product';
-import { Observable, take } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ShoppingCartService {
     });
   }
 
-  private async getOrCreateCart(){
+  private async getOrCreateCartId(){
     let cartId = localStorage.getItem('cartId')
     if (cartId) return cartId
     
@@ -25,8 +26,9 @@ export class ShoppingCartService {
     return result.key    
   }
 
-  private getCart(cartId:string){
-    return this.db.object('/shopping-carts/' + cartId)
+  async getCart():Promise<Observable<ShoppingCart>>{
+    let cartId = await this.getOrCreateCartId();
+    return this.db.object('/shopping-carts/' + cartId).valueChanges().pipe(map((x:any) => new ShoppingCart(x.items))) as Observable<ShoppingCart>;
   }
 
   private getItem(cartId:string, productId:string){
@@ -34,7 +36,15 @@ export class ShoppingCartService {
   }
 
   async addToCart(product:Product){
-    let cartId = await this.getOrCreateCart() as string;
+    this.updateItemQuantity(product,1);
+  }
+
+  async removeFromCart(product:Product){
+    this.updateItemQuantity(product,-1);
+  }
+
+  private async updateItemQuantity(product:Product,change:number){
+    let cartId = await this.getOrCreateCartId() as string;
     let item$: Observable<any> = this.getItem(cartId, product.key).valueChanges();
 
     let item$$ = this.getItem(cartId, product.key);
@@ -44,7 +54,7 @@ export class ShoppingCartService {
         item$$.set({product: product.data, quantity: 1});
       }
       else{
-        item$$.update({quantity: item.quantity + 1});
+        item$$.update({quantity: item.quantity + change});
       }
     });
   }
