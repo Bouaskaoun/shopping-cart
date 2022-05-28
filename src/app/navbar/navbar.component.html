@@ -9,7 +9,7 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/shop-cart">
               Shop Cart
-              <span class="badge rounded-pill alert-warning" *ngIf="cart$ |async as cart">{{ cart.getTotalItemCount() }}</span>
+              <span class="badge rounded-pill alert-warning" *ngIf="cart$ |async as cart">{{ cart.totalItemCount }}</span>
             </a>
           </li>
           <li *ngIf = "!appUser" class="nav-item">
